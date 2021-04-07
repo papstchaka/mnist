@@ -42,13 +42,13 @@ After transforming the given raw dataset, the resulting representation can be us
 The following two graphics meanwhile show the immense power of `Neural Networks with Triplet Loss`. In this case, samples from the `MNIST` are transformed from their original shape (of `28x28` pixels) down to only `2` dimensions - that the result can be shown graphically:
 
 <h2 align="center">
-    <img src="assets/PCA.png" alt="Data after PCA" width="800px" />
+    <img src="assets/PCA.PNG" alt="Data after PCA" width="800px" />
 </h2>
 
 Using a `PCA` to transform the data down to `2` dimensions
 
 <h2 align="center">
-    <img src="assets/NN_Triplet_Loss_PCA.png" alt="Data after Neural Network with Triplet Loss and PCA" width="800px" />
+    <img src="assets/NN_Triplet_Loss_PCA.PNG" alt="Data after Neural Network with Triplet Loss and PCA" width="800px" />
 </h2>
 
 Using a `Neural Network with Triplet Loss` and a `PCA` to transform the data down to `2` dimensions
@@ -56,13 +56,13 @@ Using a `Neural Network with Triplet Loss` and a `PCA` to transform the data dow
 <br/><br/>
 
 <h2 align="center">
-    <img src="assets/PCA_confusion_matrix.png" alt="Confusion Matrix after PCA" width="800px" />
+    <img src="assets/PCA_confusion_matrix.PNG" alt="Confusion Matrix after PCA" width="800px" />
 </h2>
 
 Confusion Matrix after  a `PCA` transformed the data down to `2` dimensions
 
 <h2 align="center">
-    <img src="assets/NN_Triplet_Loss_PCA_confusion_matrix.png" alt="Confusion Matrix after Neural Network with Triplet Loss and PCA" width="800px" />
+    <img src="assets/NN_Triplet_Loss_PCA_confusion_matrix.PNG" alt="Confusion Matrix after Neural Network with Triplet Loss and PCA" width="800px" />
 </h2>
 
 Confusion Matrix after `Neural Network with Triplet Loss` and `PCA` to transformed the data down to `2` dimensions
