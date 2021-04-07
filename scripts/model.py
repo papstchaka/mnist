@@ -41,9 +41,7 @@ class NN:
         self.model =  model
         ## compile model with learning rate and triplet loss
         self.model.compile(optimizer=tf.keras.optimizers.Adam(self.lr), loss=tfa.losses.TripletSemiHardLoss())
-        ## print summary of model
-        print(self.model.summary())
-
+        
     def train(self) -> np.array:
         '''
         trains the model
