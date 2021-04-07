@@ -75,13 +75,12 @@ This can also be seen in the two different confusion matrixes, pointing out that
 
 The exact results using the whole training dataset (predicting on the training dataset **as well!**):
 
-|           |   | PCA    | NN with Triplet Loss + PCA |
-| --------- | - | :----: | :------------------------: |
-| Accuracy  |   | 45.98% | 99.89%                     |
-| Precision |   | 0.46   | 1.00                       | 
-| Recall    |   | 0.47   | 1.00                       |
-| F1 Score  |   | 0.45   | 1.00                       |
-|           |   |        |                            |
+|           | PCA    | NN with Triplet Loss + PCA |
+| --------- | :----: | :------------------------: |
+| Accuracy  | 45.98% | 99.89%                     |
+| Precision | 0.46   | 1.00                       | 
+| Recall    | 0.47   | 1.00                       |
+| F1 Score  | 0.45   | 1.00                       |
 
 ## Next Steps
 
