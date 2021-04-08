@@ -77,7 +77,7 @@ The exact results using the whole training dataset (predicting on the training d
 
 |           | PCA    | NN with Triplet Loss + PCA |
 | --------- | :----: | :------------------------: |
-| Accuracy  | 45.98% | 99.89%                     |
+| Accuracy  | 45.98% | 99.99%                     |
 | Precision | 0.46   | 1.00                       | 
 | Recall    | 0.47   | 1.00                       |
 | F1 Score  | 0.45   | 1.00                       |
