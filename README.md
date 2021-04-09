@@ -73,14 +73,16 @@ Given the result of the first transformation, it seems very hard for a (very sim
 
 This can also be seen in the two different confusion matrixes, pointing out that the used `SVM` is much more successful to predict the transformed data. All evaluated metrics, namely `accuracy`, `precision`, `recall` and `f1 score` - described [`here`](https://towardsdatascience.com/accuracy-precision-recall-or-f1-331fb37c5cb9) - are widely higher for the second transformation!
 
-The exact results using the whole training dataset (predicting on the training dataset **as well!**):
+The exact results after training (using the whole training dataset) during prediction on the test dataset!:
+
+**Graphics and shown results were achieved using a Notebook on [`Google Colab`](https://colab.research.google.com/) with same input and same parameters (as in provided Jupyter Notebook) with 2000 epochs and a EarlyStopping patience of 100!**
 
 |           | PCA    | NN with Triplet Loss + PCA |
 | --------- | :----: | :------------------------: |
-| Accuracy  | 45.98% | 99.99%                     |
-| Precision | 0.46   | 1.00                       | 
-| Recall    | 0.47   | 1.00                       |
-| F1 Score  | 0.45   | 1.00                       |
+| Accuracy  | 47.49% | 99.98%                     |
+| Precision | 0.49   | 1.00                       | 
+| Recall    | 0.48   | 1.00                       |
+| F1 Score  | 0.46   | 1.00                       |
 
 ## Next Steps
 
