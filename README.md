@@ -20,7 +20,7 @@
 -------
 
 ## About the Project
-This repositoriy is built to play around with the well-known [`MNIST-dataset`](http://yann.lecun.com/exdb/mnist/) and `Neural Networks` using [`Triplet Loss`](https://towardsdatascience.com/image-similarity-using-triplet-loss-3744c0f67973). 
+This repositoriy is built to play around with some well-known datasets - such as [`MNIST dataset`](http://yann.lecun.com/exdb/mnist/) or [`UNB's NSL-KDD dataset`](https://www.unb.ca/cic/datasets/nsl.html) - to demonstrate a typical `Machine Learning Pipeline`, the power of `Feature Reduction`, using `Neural Networks` with [`Triplet Loss`](https://towardsdatascience.com/image-similarity-using-triplet-loss-3744c0f67973). 
 
 <br/><br/>
 
@@ -84,8 +84,10 @@ The exact results after training (using the whole training dataset) during predi
 | Recall    | 0.48   | 1.00                       |
 | F1 Score  | 0.46   | 1.00                       |
 
+<br/><br/>
+
+-------
+
 ## Next Steps
 
-- think about `encoding` columns that are still numeric (instead of dropping them during [`utils's`](scripts/utils.py) `check_numeric()`. Possible would be:
-    - Binarizer, such as pandas's [`get_dummies()`](https://pandas.pydata.org/docs/reference/api/pandas.get_dummies.html)
-    - sklearn's [`Ordinal Encoder`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OrdinalEncoder.html)
+- try more datasets
