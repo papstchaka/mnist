@@ -9,7 +9,7 @@ import tensorflow_addons as tfa
 
 class NN:
 
-    def __init__(self, model:object, X:np.array, y:np.array, test_X:np.array, test_y:np.array, batch_size:int = 32, lr:float = 1e-3, epochs:int = 100, patience:int = 3) -> None:
+    def __init__(self, model:object, X:np.array, y:np.array, test_X:np.array, test_y:np.array, batch_size:int = 32, lr:float = 1e-3, epochs:int = 100, patience:int = 3, verbose:int = 1) -> None:
         '''
         constructor of class. 
         Parameters:
@@ -22,6 +22,7 @@ class NN:
             - lr: desired learning rate [Float, default = 1e-3]
             - epochs: desired number of epochs [Integer, default = 100]
             - patience: patience before training gets stopped by EarlyStopping [Integer, default = 3]
+            - verbose: how detailed the training process shall be printed [Integer, default = 1]
         Initializes:
             - lr
             - batch_size
@@ -29,6 +30,7 @@ class NN:
             - X, y, test_X, test_y
             - patience
             - model
+            - verbose
         Returns:
             - None
         '''
@@ -41,6 +43,7 @@ class NN:
         self.model =  model
         ## compile model with learning rate and triplet loss
         self.model.compile(optimizer=tf.keras.optimizers.Adam(self.lr), loss=tfa.losses.TripletSemiHardLoss())
+        self.verbose = verbose
         
     def train(self) -> np.array:
         '''
@@ -55,7 +58,7 @@ class NN:
             tf.keras.callbacks.EarlyStopping(monitor = "loss", patience = self.patience, restore_best_weights = True)
         ]
         ## train model
-        self.model.fit(x=self.X, y=self.y, batch_size=self.batch_size, epochs=self.epochs, verbose=1, validation_data = (self.test_X, self.test_y), callbacks = callbacks)
+        self.model.fit(x=self.X, y=self.y, batch_size=self.batch_size, epochs=self.epochs, verbose=self.verbose, validation_data = (self.test_X, self.test_y), callbacks = callbacks)
 
     def predict(self, X:np.array) -> np.array:
         '''
