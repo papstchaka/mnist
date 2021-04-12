@@ -13,6 +13,86 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import plot_confusion_matrix
 from sklearn.metrics import balanced_accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix, roc_curve, auc
+from sklearn.preprocessing import OrdinalEncoder
+
+def encode_objects(data:pd.DataFrame, ignore_columns:list = [], how:str = "binarizer") -> pd.DataFrame:
+    '''
+    goes through given dataset, encodes all object columns into numerical data
+    Parameters:
+        - data: DataFrame to anaylse [pandas.DataFrame]
+        - ignore_columns: List of columns that shall be ignored [List, default = []]
+        - how: strategy to encode. The following are possible [String]
+            - Binarize: every unique value gets own column, filled with 0's and 1's, using pandas.get_dummies() --> 'binarizer' = Default
+            - OrdinalEncoder: unique values get replaced by increasing number (same amount of features) using sklearn's OrdinalEncoder --> 'ordinal'
+    Returns:
+        - encoded_data: encoded DataFrame [pandas.DataFrame]
+    '''
+    ## make sure not to overwrite given data
+    df = data.copy()
+    ## check if data is pandas.DataFrame
+    if not type(df) == pd.DataFrame:
+        if type(df) == pd.Series:
+            df = pd.DataFrame(data)
+            df.columns = ["Series_Data"]
+        else:
+            print("data is no pandas.DataFrame, cannot be further processed")
+            return df
+    ## remaining columns that shall be checked (all - ignore_columns)
+    columns = list(set(df.columns) - set(ignore_columns))
+    ## define possible strategies
+    if how == "binarizer":
+        strategy = lambda x: pd.get_dummies(x)
+    elif how == "ordinal":
+        enc = OrdinalEncoder()
+        strategy = lambda x: pd.DataFrame(enc.fit_transform(x), columns = x.columns)
+    else:
+        print("strategy not implemented (yet!). Using pandas.get_dummies() instead!")
+        strategy = lambda x: pd.get_dummies(x)
+    cols = []
+    ## go through all remaining columns, check if 'object' features exist
+    for column in columns:
+        if pd.api.types.is_string_dtype(df[column]):
+            cols.append(column)
+    ## get all other columns from data
+    other_columns = list(set(df.columns) - set(cols))
+    ## get both subdatasets - the encoded one and the remaining original one
+    encoded_data_raw = strategy(df[cols])
+    data_raw = df[other_columns]
+    ## merge both subdatasets
+    encoded_data = pd.concat([encoded_data_raw, data_raw], axis = 1)
+    return encoded_data
+
+def check_nan(data:pd.Series) -> bool:
+    '''
+    checks whether given data contains NaN's
+    Parameters:
+        - data: data to check [pandas.Series], can also be pandas.DataFrame
+    Returns:
+        - nan's: True, if data contains NaN's, otherwise False [Boolean]
+    '''
+    ## make sure not to overwrite given data
+    df = data.copy()
+    if (not type(df) == pd.DataFrame) and (not type(df) == pd.Series):
+        print("data is no pandas.DataFrame, no check for NaN's done")
+        return False
+    if type(df) == pd.DataFrame:
+        return data.isna().sum().sum().astype(bool)
+    return data.isna().sum().astype(bool)
+
+def add_nan(data:pd.DataFrame, amount:float = 0.05) -> pd.DataFrame:
+    '''
+    taking the given DataFrame and randomly adds the given amount of NaN's into it
+    Parameters:
+        - data: given data to add NaN's to [pandas.DataFrame]
+        - amount: desired amount of NaN's [Float, default = 0.05]
+    Returns:
+        - nan_data: data containing desired amount of NaN's [pandas.DataFrame]
+    '''
+    ## set a numpy array with <amount> number of `True`s in the shape of data
+    nan_array = np.random.random(data.shape) < amount
+    ## mask every element in 'data' with an NaN, when that element in 'nan_array' is set to True
+    nan_data = data.mask(nan_array)
+    return nan_data
 
 def check_numeric(data:pd.DataFrame, ignore_columns:list = []) -> pd.DataFrame:
     '''
@@ -27,6 +107,12 @@ def check_numeric(data:pd.DataFrame, ignore_columns:list = []) -> pd.DataFrame:
     df = data.copy()
     ## check if data is pandas.DataFrame
     if not type(df) == pd.DataFrame:
+        if type(df) == pd.Series:
+            num_df = pd.to_numeric(df, errors = "coerce")
+            if num_df.isna().sum() > 0:
+                print("data cannot be converted to numerical data, you have to encode it")
+                return df
+            return num_df
         print("data is no pandas.DataFrame, cannot be further processed")
         return df
     ## remaining columns that shall be checked (all - ignore_columns)
@@ -76,9 +162,9 @@ def handle_nans(data:pd.DataFrame, strategy:str = "null", ignore_columns:list = 
     '''
     ## make sure not to overwrite given data
     df = data.copy()
-    ## check if data is pandas.DataFrame
-    if not type(df) == pd.DataFrame:
-        print("data is no pandas.DataFrame, cannot be further processed")
+    ## check if data is data contains NaN's
+    if not check_nan(df):
+        print("no NaN's inside data")
         return df
     ## remaining columns that shall be checked (all - ignore_columns)
     columns = list(set(df.columns) - set(ignore_columns))
@@ -208,7 +294,7 @@ def plot_reduced_data(X_new:np.array, y:np.array) -> None:
     fig=plt.figure(figsize=(2*size,size))
     ## add plots
     ax = fig.add_subplot()
-    colors = list(mcolors.TABLEAU_COLORS)
+    colors = list(mcolors.TABLEAU_COLORS) + list(mcolors.BASE_COLORS)
     for i in range(len(subdata)):
         ax.scatter(subdata[i]["x"], subdata[i]["y"], color = colors[i], label = i)
     ## update layout, without ticklabels and the grid to be on
@@ -217,7 +303,10 @@ def plot_reduced_data(X_new:np.array, y:np.array) -> None:
     ax.grid(True)
     ## set title, new legend, save figure, show plot
     ax.set_title(f"Plot of the reduced data after PCA, colored in respective label", size=2*size)
-    ax.legend(prop={'size': 1.5*size})
+    if subdata.__len__() > 12:
+        ax.legend().set_visible(False)
+    else:
+        ax.legend(prop={'size': 1.5*size})
     plt.show()
     
 def evaluate_model(clf:object, X:np.array, y:np.array) -> None:
