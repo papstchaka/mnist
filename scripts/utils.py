@@ -14,7 +14,41 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import plot_confusion_matrix
 from sklearn.metrics import balanced_accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix, roc_curve, auc
 from sklearn.preprocessing import OrdinalEncoder
+from collections import Counter
 
+def tackle_distribution_shift(data:pd.DataFrame, approach:str = "reuse") -> pd.DataFrame:
+    '''
+    function to balance the appearance of samples from different classes -> tackle distribution shift
+    Parameters:
+        - data: data with distribution shift [pandas.DataFrame]
+        - approach: strategy to tackle the distribution shift. Possible values are [String]
+            - reusing minor class samples --> 'reuse' = default
+            - constraining the number of major class samples --> 'constrain'
+    Returns:
+        - df: data without distribution shift [pandas.DataFrame]
+    '''
+    ## make sure not to overwrite given data
+    df = data.copy()
+    ## get all labels that exist
+    labels = data.loc[:, "Label"]
+    ## get appearances of each label
+    counted_labels = Counter(labels).most_common()
+    ## get max num of samples (valid for all classes)
+    if approach == "reuse":
+        ## take appearance value of most common label
+        sample_size = counted_labels[0][1]
+    elif approach == "constrain":
+        ## take appearance value of least common label
+        sample_size = counted_labels[-1][1]
+    else:
+        print("approach not implemented (yet)! Using 'resue' instead!")
+        ## take appearance value of most common label
+        sample_size = counted_labels[0][1]
+    ## take a 'subset' or 'superset' of every class
+    sampled_data = [df[df.Label == label].sample(n = sample_size, replace = True) for label in np.unique(labels)]
+    ## return merged data
+    return pd.concat(sampled_data).reset_index(drop = True)
+    
 def encode_objects(data:pd.DataFrame, ignore_columns:list = [], how:str = "binarizer") -> pd.DataFrame:
     '''
     goes through given dataset, encodes all object columns into numerical data
