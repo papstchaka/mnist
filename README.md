@@ -123,3 +123,4 @@ The exact results after training (using the whole training dataset) during predi
 
 - try more datasets
 - restructure [`utils.py`](scripts/utils.py) to gain more clarity, especially while using all the implemented `preprocessing` steps
+- maybe renaming repository &rightarrow; something like `Triplet Loss` or `Machine Learning Pipeline` or `Feature Reduction`
