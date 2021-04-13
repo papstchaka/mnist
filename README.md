@@ -1,7 +1,7 @@
-# MNIST
+# Using Triplet Loss Neural Networks for Feature Reduction and Model Perfomance increase in a Machine Learning Pipeline
 
 <h2 align="center">
-    <img src="assets/mnist_dataset.png" alt="Example of the MNIST dataset" width="800px" />
+    <img src="assets/triplet_loss.ppm" alt="Triplet Loss" width="800px" />
 </h2>
 
 <br/><br/>
@@ -35,20 +35,21 @@ This repositoriy is built to play around with some well-known datasets - such as
 
 ## Results
 
-After transforming the given raw dataset, the resulting representation can be used to fit a [`Principal Component Analysis (PCA)`](shorturl.at/lyNZ0).
+After transforming the given raw dataset, the resulting representation can be used to fit a [`Principal Component Analysis (PCA)`](shorturl.at/lyNZ0). The following graphics meanwhile show the immense power of `Neural Networks with Triplet Loss` in increasing the models performance while decreasing the feature space.
 
 -------
 
-The following two graphics meanwhile show the immense power of `Neural Networks with Triplet Loss`. In this case, samples from the `MNIST` are transformed from their original shape (of `28x28` pixels) down to only `2` dimensions - that the result can be shown graphically:
+### MNIST
+Here, samples from the `MNIST` are transformed from their original shape (of `28x28` pixels) down to only `2` dimensions - that the result can be shown graphically:
 
 <h2 align="center">
-    <img src="assets/PCA.PNG" alt="Data after PCA" width="800px" />
+    <img src="assets/PCA_mnist.PNG" alt="Data after PCA" width="800px" />
 </h2>
 
 Using a `PCA` to transform the data down to `2` dimensions
 
 <h2 align="center">
-    <img src="assets/NN_Triplet_Loss_PCA.PNG" alt="Data after Neural Network with Triplet Loss and PCA" width="800px" />
+    <img src="assets/NN_Triplet_Loss_PCA_mnist.PNG" alt="Data after Neural Network with Triplet Loss and PCA" width="800px" />
 </h2>
 
 Using a `Neural Network with Triplet Loss` and a `PCA` to transform the data down to `2` dimensions
@@ -56,13 +57,13 @@ Using a `Neural Network with Triplet Loss` and a `PCA` to transform the data dow
 <br/><br/>
 
 <h2 align="center">
-    <img src="assets/PCA_confusion_matrix.PNG" alt="Confusion Matrix after PCA" width="800px" />
+    <img src="assets/PCA_confusion_matrix_mnist.PNG" alt="Confusion Matrix after PCA on MNIST" width="800px" />
 </h2>
 
 Confusion Matrix after  a `PCA` transformed the data down to `2` dimensions
 
 <h2 align="center">
-    <img src="assets/NN_Triplet_Loss_PCA_confusion_matrix.PNG" alt="Confusion Matrix after Neural Network with Triplet Loss and PCA" width="800px" />
+    <img src="assets/NN_Triplet_Loss_PCA_confusion_matrix_mnist.PNG" alt="Confusion Matrix after Neural Network with Triplet Loss and PCA on MNIST" width="800px" />
 </h2>
 
 Confusion Matrix after `Neural Network with Triplet Loss` and `PCA` to transformed the data down to `2` dimensions
@@ -83,6 +84,36 @@ The exact results after training (using the whole training dataset) during predi
 | Precision | 0.49   | 1.00                       | 
 | Recall    | 0.48   | 1.00                       |
 | F1 Score  | 0.46   | 1.00                       |
+
+-------
+
+### NSL-KDD
+
+Using [`UNB's NSL-KDD dataset`](https://www.unb.ca/cic/datasets/nsl.html) to evaluate the power of a `Triplet Loss` configured `Neural Network` result in an immense performance increase as well! Even though the resulting graphics after transformation are not as satisfying as the above ones (exact results can be seen in [`nsl_kdd.ipynb`](nsl_kdd.ipynb)), a trained standard `Support Vector Machine (SVM)` has massively increased performance by decreasing the input feature space from `112` down to `2`:
+<br/><br/>
+
+<h2 align="center">
+    <img src="assets/PCA_confusion_matrix_nslkdd.PNG" alt="Confusion Matrix after PCA on NSL-KDD" width="800px" />
+</h2>
+
+Confusion Matrix after  a `PCA` transformed the data down to `2` dimensions
+
+<h2 align="center">
+    <img src="assets/NN_Triplet_Loss_PCA_confusion_matrix_nslkdd.PNG" alt="Confusion Matrix after Neural Network with Triplet Loss and PCA on NSL-KDD" width="800px" />
+</h2>
+
+Confusion Matrix after `Neural Network with Triplet Loss` and `PCA` to transformed the data down to `2` dimensions
+
+-------
+
+The exact results after training (using the whole training dataset) during prediction on the test dataset!:
+
+|           | PCA    | NN with Triplet Loss + PCA |
+| --------- | :----: | :------------------------: |
+| Accuracy  | 68.65% | 99.27%                     |
+| Precision | 0.72   | 0.99                       | 
+| Recall    | 0.69   | 0.99                       |
+| F1 Score  | 0.67   | 0.99                       |
 
 <br/><br/>
 
