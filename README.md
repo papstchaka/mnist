@@ -122,3 +122,4 @@ The exact results after training (using the whole training dataset) during predi
 ## Next Steps
 
 - try more datasets
+- restructure [`utils.py`](scripts/utils.py) to gain more clarity, especially while using all the implemented `preprocessing` steps
