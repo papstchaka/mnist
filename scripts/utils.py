@@ -23,6 +23,7 @@ def tackle_distribution_shift(data:pd.DataFrame, approach:str = "reuse") -> pd.D
         - data: data with distribution shift [pandas.DataFrame]
         - approach: strategy to tackle the distribution shift. Possible values are [String]
             - reusing minor class samples --> 'reuse' = default
+            - mixing both approaches by using the size of the median common class --> "mix"
             - constraining the number of major class samples --> 'constrain'
     Returns:
         - df: data without distribution shift [pandas.DataFrame]
@@ -37,6 +38,8 @@ def tackle_distribution_shift(data:pd.DataFrame, approach:str = "reuse") -> pd.D
     if approach == "reuse":
         ## take appearance value of most common label
         sample_size = counted_labels[0][1]
+    elif approach == "mix":
+        sample_size = counted_labels[int(counted_labels.__len__()*0.5)][1]
     elif approach == "constrain":
         ## take appearance value of least common label
         sample_size = counted_labels[-1][1]
