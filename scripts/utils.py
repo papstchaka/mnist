@@ -271,20 +271,30 @@ def drop_features(data:pd.DataFrame, columns:list = []) -> pd.DataFrame:
     df = df.drop(cols, axis=1)
     return df
 
-def iter_scale_sample(data:np.array, scaler:object = MinMaxScaler) -> np.array:
+def flatten(X:np.array) -> np.array:
     '''
-    iterates over the whole dataset, scales each sample by given scaler
+    flattens a 3D array into 2D array    
     Parameters:
-        - data: dataset to iterate over [numpy.array]
-        - scaler: desired scaler [object, default = MinMaxScaler]
+        - X: a 3D array with shape samples x width x height [numpy.array]
     Returns:
-        - scaled_data: scaled dataset [np.array]
+        - flattened_X: 2D array with shape sample x width*height [numpy.array]
     '''
-    ## init scaler
-    sc = scaler()
-    ## iterate over given data, yield scaled data
-    for sample in tqdm(data):
-        yield sc.fit_transform(sample)
+    flattened_X = X.reshape(X.shape[0], -1)
+    return flattened_X
+
+def iter_scale(X:np.array, scaler:object) -> np.array:
+    '''
+    iterates over fiven X, scales given 3D array using given (trained) scaler
+    Parameters:
+        - X: 3D array with shape samples x length x features [numpy.array]
+        - scaler: scaler object, e.g., sklearn.preprocessing.StandardScaler, sklearn.preprocessing.normalize [object]
+    Returns:
+        - scaled_X: scaled 3D array of same shape [numpy.array]
+    '''
+    ## copy X to make sure not to overwrite the original data
+    scaled_X = X.copy()
+    for X_to_scale in tqdm(scaled_X):
+        yield scaler.transform(X_to_scale.reshape(1, -1)).reshape(X_to_scale.shape)   
         
 def pca(X:np.array, y:np.array) -> (np.array, np.array):
     '''
