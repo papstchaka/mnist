@@ -329,11 +329,11 @@ def plot_reduced_data(X_new:np.array, y:np.array) -> None:
         - None
     '''
     ## make DataFrame from transformed x values, add information about labels, rename the columns
-    reduced_data = pd.DataFrame(X_new)
+    reduced_data = pd.DataFrame(X_new).reset_index(drop = True)
     if reduced_data.columns.__len__() == 1:
         reduced_data["y"] = 0
-    reduced_data["Label"] = y
-    reduced_data.columns = ["x","y","Label"]
+    reduced_data.columns = ["x","y"]
+    reduced_data["Label"] = y.reset_index(drop = True)
     ## make a list of SubDataSets that each only contain data about respective label
     subdata = [reduced_data[reduced_data["Label"] == label] for label in np.unique(y)]
     ## set size, init figure
