@@ -68,5 +68,5 @@ class NN:
         Returns:
             - X_pred: predicted data [numpy.array]
         '''
-        X_pred = self.model.predict(self.X)
+        X_pred = self.model.predict(X)
         return X_pred
