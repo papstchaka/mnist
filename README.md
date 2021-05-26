@@ -89,8 +89,20 @@ The exact results after training (using the whole training dataset) during predi
 
 ### NSL-KDD
 
-Using [`UNB's NSL-KDD dataset`](https://www.unb.ca/cic/datasets/nsl.html) to evaluate the power of a `Triplet Loss` configured `Neural Network` result in an immense performance increase as well! Even though the resulting graphics after transformation are not as satisfying as the above ones (exact results can be seen in [`nsl_kdd.ipynb`](nsl_kdd.ipynb)), a trained standard `Support Vector Machine (SVM)` has massively increased performance by decreasing the input feature space from `112` down to `2`:
+Using [`UNB's NSL-KDD dataset`](https://www.unb.ca/cic/datasets/nsl.html) to evaluate the power of a `Triplet Loss` configured `Neural Network` result in an immense performance increase as well! The resulting graphics after transformation are nearly as satisfying as the above ones and a trained standard `Support Vector Machine (SVM)` has massively increased performance by decreasing the input feature space from `112` down to `2`:
 <br/><br/>
+
+<h2 align="center">
+    <img src="assets/PCA_nslkdd.PNG" alt="Data after PCA" width="800px" />
+</h2>
+
+Using a `PCA` to transform the data down to `2` dimensions
+
+<h2 align="center">
+    <img src="assets/NN_Triplet_Loss_PCA_nslkdd.PNG" alt="Data after Neural Network with Triplet Loss and PCA" width="800px" />
+</h2>
+
+Using a `Neural Network with Triplet Loss` and a `PCA` to transform the data down to `2` dimensions
 
 <h2 align="center">
     <img src="assets/PCA_confusion_matrix_nslkdd.PNG" alt="Confusion Matrix after PCA on NSL-KDD" width="800px" />
@@ -106,14 +118,14 @@ Confusion Matrix after `Neural Network with Triplet Loss` and `PCA` to transform
 
 -------
 
-The exact results after training (using the whole training dataset) during prediction on the test dataset!:
+The exact results after training (using the whole training dataset with under-sampling) during prediction on the test dataset!:
 
 |           | PCA    | NN with Triplet Loss + PCA |
 | --------- | :----: | :------------------------: |
-| Accuracy  | 68.65% | 99.27%                     |
-| Precision | 0.72   | 0.99                       | 
-| Recall    | 0.69   | 0.99                       |
-| F1 Score  | 0.67   | 0.99                       |
+| Accuracy  | 69.14% | 98.31%                     |
+| Precision | 0.74   | 0.98                       | 
+| Recall    | 0.70   | 0.98                       |
+| F1 Score  | 0.69   | 0.98                       |
 
 <br/><br/>
 
